@@ -1,0 +1,11 @@
+{
+  "name": "HN Finanzas · Carga rápida",
+  "short_name": "HN Cargar",
+  "start_url": "cargar.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f7f6",
+  "theme_color": "#16a34a",
+  "description": "Registro rápido de movimientos de HN Finanzas.",
+  "icons": []
+}
