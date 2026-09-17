@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#16a34a">
+    <meta name="description" content="Carga rápida de movimientos de HN Finanzas.">
+    <link rel="manifest" href="quick-manifest.webmanifest">
+    <title>HN Finanzas · Carga rápida</title>
+    <style>
+        :root{--green:#16a34a;--green-dark:#15803d;--green-soft:#ecfdf5;--blue:#2563eb;--red:#dc2626;--red-soft:#fef2f2;--text:#17211b;--muted:#6b7280;--line:#e5e7eb;--bg:#f5f7f6;--card:#fff}
+        *{box-sizing:border-box}
+        body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;min-height:100vh}
+        button,input,select,textarea{font:inherit}
+        .wrap{width:min(100%,520px);margin:auto;padding:18px 16px 28px}
+        .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+        .brand{display:flex;align-items:center;gap:10px}.logo{width:42px;height:42px;border-radius:12px;background:#111;color:#fff;display:grid;place-items:center;font-weight:900}.brand b{display:block;font-size:15px}.brand span{font-size:11px;color:var(--muted)}
+        .open{border:1px solid var(--line);background:#fff;border-radius:11px;padding:9px 11px;text-decoration:none;color:var(--text);font-size:12px;font-weight:700}
+        .hero{background:linear-gradient(145deg,#fff,#f0fdf4);border:1px solid #d9f2e1;border-radius:22px;padding:20px;box-shadow:0 8px 28px rgba(20,80,40,.07);margin-bottom:14px}.eyebrow{font-size:10px;letter-spacing:1.4px;font-weight:800;color:var(--green);margin:0 0 7px}.hero h1{font-size:25px;line-height:1.1;margin:0}.hero p{font-size:13px;color:var(--muted);margin:8px 0 0}
+        .types{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}.type{border:1px solid var(--line);background:#fff;border-radius:14px;padding:12px 8px;text-align:center;font-weight:800;font-size:12px;color:var(--muted)}.type.active{border-color:var(--green);background:var(--green-soft);color:var(--green-dark)}.type .ico{display:block;font-size:20px;margin-bottom:4px}
+        .card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 4px 18px rgba(0,0,0,.04)}
+        label{display:block;font-size:11px;font-weight:800;color:#4b5563;margin:0 0 6px}.field{margin-bottom:13px}input,select{width:100%;border:1px solid #dfe3e7;border-radius:12px;background:#fff;padding:13px 12px;outline:none;color:var(--text)}input:focus,select:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(22,163,74,.1)}
+        .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.amount-wrap{position:relative}.currency{position:absolute;left:12px;top:13px;font-weight:800;color:var(--green)}#amount{padding-left:38px;font-size:20px;font-weight:800}
+        .save{width:100%;border:0;background:var(--green);color:#fff;border-radius:13px;padding:14px;font-size:15px;font-weight:900;box-shadow:0 7px 16px rgba(22,163,74,.2)}.save:active{transform:translateY(1px)}
+        .recent{margin-top:14px}.recent-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}.recent h2{font-size:14px;margin:0}.recent small{color:var(--muted)}.item{background:#fff;border:1px solid var(--line);border-radius:14px;padding:11px 12px;display:flex;justify-content:space-between;gap:10px;margin-bottom:7px}.item b{font-size:12px}.item span{font-size:12px;color:var(--muted)}.income{color:var(--green)}.expense{color:var(--red)}
+        #message{position:fixed;left:50%;bottom:18px;transform:translateX(-50%) translateY(20px);opacity:0;background:#111;color:#fff;padding:11px 15px;border-radius:12px;font-size:12px;font-weight:700;transition:.2s;pointer-events:none;z-index:5}#message.show{opacity:1;transform:translateX(-50%) translateY(0)}
+        @media(max-width:380px){.row{grid-template-columns:1fr}.wrap{padding-left:12px;padding-right:12px}}
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <header class="top">
+        <div class="brand"><div class="logo">HN</div><div><b>HN FINANZAS</b><span>Carga rápida</span></div></div>
+        <a class="open" href="index.html">Abrir app</a>
+    </header>
+
+    <section class="hero">
+        <p class="eyebrow">REGISTRO RÁPIDO</p>
+        <h1>Cargá el movimiento y seguí.</h1>
+        <p>No necesitás entrar al panel principal. Los datos se guardan en el mismo almacenamiento de HN Finanzas.</p>
+    </section>
+
+    <div class="types" role="tablist">
+        <button class="type active" data-type="income"><span class="ico">＋</span>Ingreso</button>
+        <button class="type" data-type="expense"><span class="ico">−</span>Gasto</button>
+        <button class="type" data-type="saving"><span class="ico">▣</span>Ahorro</button>
+    </div>
+
+    <form class="card" id="quickForm">
+        <div class="field"><label for="amount">Monto</label><div class="amount-wrap"><span class="currency">Bs</span><input id="amount" type="number" min="0.01" step="0.01" inputmode="decimal" placeholder="0,00" required></div></div>
+        <div class="field"><label for="description">Descripción</label><input id="description" type="text" maxlength="80" placeholder="Ej.: Trabajo cocina / comida / luz" required></div>
+        <div class="row">
+            <div class="field"><label for="category">Categoría</label><select id="category"></select></div>
+            <div class="field"><label for="date">Fecha</label><input id="date" type="date" required></div>
+        </div>
+        <div class="field"><label for="account">Cuenta</label><select id="account"><option>Efectivo</option><option>Banco</option><option>QR</option><option>Tarjeta</option><option>Otro</option></select></div>
+        <button class="save" type="submit">Guardar movimiento</button>
+    </form>
+
+    <section class="recent">
+        <div class="recent-head"><h2>Últimos registros</h2><small id="count">0</small></div>
+        <div id="recentList"></div>
+    </section>
+</div>
+<div id="message"></div>
+<script>
+"use strict";
+const STORAGE_KEY="hn_finanzas_v1";
+const INCOME=["HN Muebles","Sueldo","Trabajo adicional","Venta","Otros ingresos"];
+const EXPENSE=["Comida","Luz","Agua","Colegio","Maestra integradora","Diezmo","Vivienda","Transporte","Salud","Ropa","Familia","HN Muebles","Materiales HN","Herramientas HN","Combustible HN","Mano de obra HN","Publicidad HN","Otros"];
+const SAVING=["Fondo de emergencia","Ahorro familiar","Ahorro HN","Crecimiento HN"];
+let type=new URLSearchParams(location.search).get("tipo")||"income";
+if(!["income","expense","saving"].includes(type)) type="income";
+const $=id=>document.getElementById(id);
+const today=()=>{const d=new Date();const o=d.getTimezoneOffset();return new Date(d.getTime()-o*60000).toISOString().slice(0,10)};
+function state(){try{const raw=localStorage.getItem(STORAGE_KEY);const s=raw?JSON.parse(raw):{};s.movements=Array.isArray(s.movements)?s.movements:[];s.savings=Array.isArray(s.savings)?s.savings:[];return s}catch(e){return {movements:[],savings:[]}}}
+function save(s){localStorage.setItem(STORAGE_KEY,JSON.stringify(s))}
+function id(p){return p+"_"+Date.now().toString(36)+"_"+Math.random().toString(36).slice(2,8)}
+function categories(){return type==="income"?INCOME:type==="expense"?EXPENSE:SAVING}
+function renderCategories(){const c=$("category");c.innerHTML=categories().map(x=>`<option value="${x.replaceAll('"','&quot;')}">${x}</option>`).join("");document.querySelectorAll(".type").forEach(b=>b.classList.toggle("active",b.dataset.type===type))}
+function money(n){return "Bs "+Number(n).toLocaleString("es-BO",{minimumFractionDigits:2,maximumFractionDigits:2})}
+function renderRecent(){const s=state();const items=[...s.movements.map(x=>({...x,_kind:x.type})),...s.savings.map(x=>({...x,_kind:"saving"}))].sort((a,b)=>String(b.date).localeCompare(String(a.date))).slice(0,5);$("count").textContent=items.length+" recientes";$("recentList").innerHTML=items.length?items.map(x=>`<div class="item"><div><b>${String(x.description||x.name||x.category||"Registro").replaceAll("<","&lt;")}</b><br><span>${x.category||"Ahorro"} · ${x.date||""}</span></div><b class="${x._kind}">${x._kind==="expense"?"−":"+"}${money(x.amount).replace("Bs ","Bs ")}</b></div>`).join(""):"<div class='item'><span>Sin registros todavía.</span></div>"}
+function toast(text){const m=$("message");m.textContent=text;m.classList.add("show");setTimeout(()=>m.classList.remove("show"),1800)}
+
+document.addEventListener("DOMContentLoaded",()=>{
+    $("date").value=today();
+    renderCategories();renderRecent();
+    document.querySelectorAll(".type").forEach(b=>b.addEventListener("click",()=>{type=b.dataset.type;renderCategories()}));
+    $("quickForm").addEventListener("submit",e=>{
+        e.preventDefault();
+        const amount=Number($("amount").value);const description=$("description").value.trim();const date=$("date").value;const category=$("category").value;const account=$("account").value;
+        if(!amount||amount<=0||!description||!date)return toast("Completá los datos obligatorios.");
+        const s=state();
+        if(type==="saving") s.savings.push({id:id("sav"),amount,description,category,date,account,createdAt:new Date().toISOString()});
+        else s.movements.push({id:id("mov"),type,description,amount,date,category,account,note:"",createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()});
+        save(s);$("quickForm").reset();$("date").value=today();renderCategories();renderRecent();toast(type==="income"?"Ingreso guardado.":type==="expense"?"Gasto guardado.":"Ahorro guardado.");
+    });
+    if("serviceWorker" in navigator) navigator.serviceWorker.register("quick-sw.js").catch(()=>{});
+});
+</script>
+</body>
+</html>
