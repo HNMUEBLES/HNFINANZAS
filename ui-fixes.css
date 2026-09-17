@@ -1,0 +1,39 @@
+/* HN FINANZAS — CORRECCIONES VISUALES */
+
+/* Modal de registro: siempre sólido, legible y claramente separado del fondo */
+.modal-overlay{background:rgba(10,18,14,.62)!important;backdrop-filter:blur(4px)!important}
+.modal{width:min(100%,560px)!important;max-height:92vh!important;overflow:auto!important;background:#fff!important;color:#17221c!important;border:1px solid #dfe8e2!important;border-radius:24px!important;padding:24px!important;box-shadow:0 24px 70px rgba(0,0,0,.28)!important}
+.modal .modal-header{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:15px!important;margin-bottom:20px!important}
+.modal .modal-header h3{color:#17221c!important}
+.modal-close{width:36px!important;height:36px!important;border:1px solid #e1e8e3!important;background:#f4f7f5!important;color:#17221c!important;border-radius:50%!important;font-size:22px!important;line-height:1!important}
+.modal-close:hover{background:#e8f6ed!important;color:#108247!important}
+.type-selector{display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px!important;margin:0 0 18px!important}
+.type-option{min-height:54px!important;border:1px solid #dfe8e2!important;background:#fff!important;color:#39443e!important;border-radius:14px!important;font-weight:900!important;font-size:13px!important}
+.type-option span{font-size:18px!important;margin-right:5px!important}
+.type-option.active{background:#eaf9f0!important;border-color:#18a957!important;color:#108247!important;box-shadow:inset 0 0 0 1px #18a957!important}
+.modal .form-grid{display:grid!important;grid-template-columns:1fr 1fr!important;gap:14px!important}
+.modal .form-group,.modal .form-field{margin-bottom:0!important}
+.modal label{display:block!important;color:#4e5b54!important;font-size:11px!important;font-weight:900!important;margin-bottom:6px!important}
+.modal input,.modal select,.modal textarea{width:100%!important;background:#fff!important;color:#17221c!important;border:1px solid #d7e0da!important;border-radius:12px!important;padding:12px!important;outline:none!important;box-shadow:none!important}
+.modal input:focus,.modal select:focus,.modal textarea:focus{border-color:#18a957!important;box-shadow:0 0 0 3px rgba(24,169,87,.10)!important}
+.modal .button-group,.modal .form-actions{display:flex!important;gap:10px!important;margin-top:18px!important}
+.modal .primary-button{background:#18a957!important;border-color:#18a957!important;color:#fff!important}
+
+/* Círculo: mantiene los porcentajes/ángulos calculados por app.js pero abandona el aspecto gris. */
+#dashboardDonut{filter:sepia(.85) saturate(2.8) hue-rotate(80deg)!important}
+#dashboardDonut .donut-center{filter:sepia(1) saturate(.15) hue-rotate(-80deg)!important}
+
+/* Obligaciones pagadas: verde + tilde visible. */
+.obligation-status.paid{display:inline-flex!important;align-items:center!important;gap:6px!important;background:#eaf9f0!important;color:#108247!important;border:1px solid #bfe8ce!important;border-radius:999px!important;padding:6px 10px!important;font-weight:900!important}
+.obligation-status.paid::before{content:"✓"!important;display:inline-grid!important;place-items:center!important;width:18px!important;height:18px!important;border-radius:50%!important;background:#18a957!important;color:#fff!important;font-size:12px!important}
+.obligation-status.pending{display:inline-flex!important;align-items:center!important;gap:6px!important;background:#fff8e8!important;color:#9a6500!important;border:1px solid #f3dca5!important;border-radius:999px!important;padding:6px 10px!important;font-weight:800!important}
+.obligation-status.pending::before{content:"○"!important;font-size:14px!important}
+.obligation-item:has(.obligation-status.paid){background:linear-gradient(90deg,#f4fcf7,#fff)!important;border-color:#ccebd8!important}
+.obligation-item:has(.obligation-status.paid) .obligation-name strong{color:#108247!important}
+
+/* También en el resumen del inicio */
+.obligation-mini:has(.obligation-mini-main small){border-radius:12px!important}
+.obligation-mini:has(.obligation-mini-main small) .obligation-mini-amount{font-weight:900!important}
+
+/* Mejor lectura general en móvil */
+@media(max-width:600px){.modal{padding:18px!important;border-radius:20px!important}.modal .form-grid{grid-template-columns:1fr!important}.type-option{min-height:50px!important}.modal .button-group,.modal .form-actions{flex-direction:column!important}.modal .primary-button,.modal .secondary-button{width:100%!important}}
