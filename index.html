@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#ffffff">
+
+    <title>HN Finanzas</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div id="app">
+
+        <!-- =========================
+             SIDEBAR
+        ========================== -->
+        <aside class="sidebar" id="sidebar">
+
+            <div class="brand">
+                <div class="brand-logo">HN</div>
+                <div>
+                    <h1>HN FINANZAS</h1>
+                    <span>Control financiero</span>
+                </div>
+            </div>
+
+            <nav class="main-nav">
+
+                <button class="nav-item active" data-view="dashboard">
+                    <span class="nav-icon">⌂</span>
+                    <span>Inicio</span>
+                </button>
+
+                <button class="nav-item" data-view="movimientos">
+                    <span class="nav-icon">↕</span>
+                    <span>Movimientos</span>
+                </button>
+
+                <button class="nav-item" data-view="ingresos">
+                    <span class="nav-icon">＋</span>
+                    <span>Ingresos</span>
+                </button>
+
+                <button class="nav-item" data-view="gastos">
+                    <span class="nav-icon">−</span>
+                    <span>Gastos</span>
+                </button>
+
+                <button class="nav-item" data-view="distribucion">
+                    <span class="nav-icon">◫</span>
+                    <span>Distribución</span>
+                </button>
+
+                <button class="nav-item" data-view="ahorros">
+                    <span class="nav-icon">▣</span>
+                    <span>Ahorros</span>
+                </button>
+
+                <button class="nav-item" data-view="obligaciones">
+                    <span class="nav-icon">✓</span>
+                    <span>Obligaciones</span>
+                </button>
+
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="storage-status">
+                    <span class="status-dot"></span>
+                    <div>
+                        <strong>Datos locales</strong>
+                        <small>Guardado automático</small>
+                    </div>
+                </div>
+
+                <button class="nav-item" data-view="configuracion">
+                    <span class="nav-icon">⚙</span>
+                    <span>Configuración</span>
+                </button>
+            </div>
+
+        </aside>
+
+
+        <!-- =========================
+             MAIN
+        ========================== -->
+        <main class="main-content">
+
+            <!-- TOPBAR -->
+            <header class="topbar">
+
+                <button class="mobile-menu" id="mobileMenu">
+                    ☰
+                </button>
+
+                <div class="page-title">
+                    <span id="currentDate"></span>
+                    <h2 id="pageTitle">Resumen financiero</h2>
+                </div>
+
+                <div class="top-actions">
+
+                    <button class="icon-button" id="refreshData" title="Actualizar">
+                        ↻
+                    </button>
+
+                    <button class="primary-button" id="quickAddIncome">
+                        + Registrar ingreso
+                    </button>
+
+                </div>
+
+            </header>
+
+
+            <!-- =========================
+                 VIEWS
+            ========================== -->
+
+            <section class="view active" id="view-dashboard">
+
+                <div class="welcome-row">
+                    <div>
+                        <p class="eyebrow">HN FINANZAS</p>
+                        <h3>Tu dinero, bajo control.</h3>
+                        <p class="muted">
+                            Registrá lo que entra y sale y la aplicación te ayuda a ordenar el dinero.
+                        </p>
+                    </div>
+
+                    <div class="month-selector">
+                        <button id="prevMonth">‹</button>
+                        <strong id="selectedMonthLabel"></strong>
+                        <button id="nextMonth">›</button>
+                    </div>
+                </div>
+
+
+                <div class="stats-grid">
+
+                    <article class="stat-card">
+                        <div class="stat-head">
+                            <span>Ingresos</span>
+                            <span class="stat-symbol income-symbol">+</span>
+                        </div>
+                        <strong id="dashboardIncome">Bs 0,00</strong>
+                        <small id="dashboardIncomeCount">0 movimientos</small>
+                    </article>
+
+                    <article class="stat-card">
+                        <div class="stat-head">
+                            <span>Gastos</span>
+                            <span class="stat-symbol expense-symbol">−</span>
+                        </div>
+                        <strong id="dashboardExpenses">Bs 0,00</strong>
+                        <small id="dashboardExpenseCount">0 movimientos</small>
+                    </article>
+
+                    <article class="stat-card highlight-card">
+                        <div class="stat-head">
+                            <span>Disponible</span>
+                            <span class="stat-symbol balance-symbol">=</span>
+                        </div>
+                        <strong id="dashboardBalance">Bs 0,00</strong>
+                        <small>Ingresos − gastos</small>
+                    </article>
+
+                    <article class="stat-card">
+                        <div class="stat-head">
+                            <span>Ahorros</span>
+                            <span class="stat-symbol saving-symbol">▣</span>
+                        </div>
+                        <strong id="dashboardSavings">Bs 0,00</strong>
+                        <small>Acumulado</small>
+                    </article>
+
+                </div>
+
+
+                <div class="dashboard-grid">
+
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div>
+                                <h4>Distribución del dinero</h4>
+                                <p>Cómo está repartido tu dinero este mes.</p>
+                            </div>
+                            <button class="text-button" data-view-target="distribucion">
+                                Ver detalle →
+                            </button>
+                        </div>
+
+                        <div class="distribution-layout">
+
+                            <div class="donut-wrapper">
+                                <div class="donut" id="dashboardDonut">
+                                    <div class="donut-center">
+                                        <strong id="donutTotal">Bs 0</strong>
+                                        <span>distribuido</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="distribution-list" id="dashboardDistributionList">
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div>
+                                <h4>Obligaciones</h4>
+                                <p>Pagos registrados para este mes.</p>
+                            </div>
+
+                            <button class="text-button" data-view-target="obligaciones">
+                                Ver todas →
+                            </button>
+                        </div>
+
+                        <div id="dashboardObligations" class="obligation-preview">
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <div>
+                            <h4>Últimos movimientos</h4>
+                            <p>Actividad financiera reciente.</p>
+                        </div>
+
+                        <button class="text-button" data-view-target="movimientos">
+                            Ver movimientos →
+                        </button>
+                    </div>
+
+                    <div id="dashboardMovements" class="movement-list">
+                    </div>
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 MOVIMIENTOS
+            ========================== -->
+
+            <section class="view" id="view-movimientos">
+
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">REGISTROS</p>
+                        <h3>Movimientos</h3>
+                        <p class="muted">
+                            Todo lo que entra y sale de tus finanzas.
+                        </p>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="secondary-button" id="exportData">
+                            Exportar
+                        </button>
+                        <button class="primary-button" id="addMovement">
+                            + Nuevo movimiento
+                        </button>
+                    </div>
+                </div>
+
+
+                <div class="filter-bar">
+
+                    <div class="filter-field">
+                        <label>Mes</label>
+                        <select id="movementMonthFilter"></select>
+                    </div>
+
+                    <div class="filter-field">
+                        <label>Tipo</label>
+                        <select id="movementTypeFilter">
+                            <option value="all">Todos</option>
+                            <option value="income">Ingresos</option>
+                            <option value="expense">Gastos</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-field search-field">
+                        <label>Buscar</label>
+                        <input
+                            type="search"
+                            id="movementSearch"
+                            placeholder="Descripción, categoría..."
+                        >
+                    </div>
+
+                </div>
+
+
+                <div class="panel table-panel">
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Descripción</th>
+                                    <th>Categoría</th>
+                                    <th>Tipo</th>
+                                    <th>Cuenta</th>
+                                    <th class="align-right">Monto</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="movementsTableBody">
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                    <div id="movementsEmpty" class="empty-state hidden">
+                        <div class="empty-icon">◎</div>
+                        <h4>No hay movimientos</h4>
+                        <p>Registrá tu primer ingreso o gasto.</p>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 INGRESOS
+            ========================== -->
+
+            <section class="view" id="view-ingresos">
+
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">ENTRADAS</p>
+                        <h3>Ingresos</h3>
+                        <p class="muted">
+                            Registrá dinero proveniente de trabajos, sueldo u otras fuentes.
+                        </p>
+                    </div>
+
+                    <button class="primary-button" id="addIncome">
+                        + Registrar ingreso
+                    </button>
+                </div>
+
+
+                <div class="income-summary-grid">
+
+                    <div class="summary-box">
+                        <span>Ingresos del mes</span>
+                        <strong id="incomeViewTotal">Bs 0,00</strong>
+                    </div>
+
+                    <div class="summary-box">
+                        <span>Ingresos HN Muebles</span>
+                        <strong id="incomeBusinessTotal">Bs 0,00</strong>
+                    </div>
+
+                    <div class="summary-box">
+                        <span>Otros ingresos</span>
+                        <strong id="incomeOtherTotal">Bs 0,00</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <div>
+                            <h4>Fuentes de ingreso</h4>
+                            <p>Distribución de lo recibido este mes.</p>
+                        </div>
+                    </div>
+
+                    <div id="incomeSourcesList" class="category-bars">
+                    </div>
+                </div>
+
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <div>
+                            <h4>Ingresos registrados</h4>
+                        </div>
+                    </div>
+
+                    <div id="incomeCards" class="card-list">
+                    </div>
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 GASTOS
+            ========================== -->
+
+            <section class="view" id="view-gastos">
+
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">SALIDAS</p>
+                        <h3>Gastos</h3>
+                        <p class="muted">
+                            Registrá y controlá cada salida de dinero.
+                        </p>
+                    </div>
+
+                    <button class="primary-button" id="addExpense">
+                        + Registrar gasto
+                    </button>
+                </div>
+
+
+                <div class="income-summary-grid">
+
+                    <div class="summary-box">
+                        <span>Gastos del mes</span>
+                        <strong id="expenseViewTotal">Bs 0,00</strong>
+                    </div>
+
+                    <div class="summary-box">
+                        <span>Gastos familiares</span>
+                        <strong id="expenseFamilyTotal">Bs 0,00</strong>
+                    </div>
+
+                    <div class="summary-box">
+                        <span>Gastos HN</span>
+                        <strong id="expenseBusinessTotal">Bs 0,00</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <div>
+                            <h4>Gastos por categoría</h4>
+                            <p>Observá dónde se está yendo el dinero.</p>
+                        </div>
+                    </div>
+
+                    <div id="expenseCategoriesList" class="category-bars">
+                    </div>
+                </div>
+
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <div>
+                            <h4>Gastos registrados</h4>
+                        </div>
+                    </div>
+
+                    <div id="expenseCards" class="card-list">
+                    </div>
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 DISTRIBUCIÓN
+            ========================== -->
+
+            <section class="view" id="view-distribucion">
+
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">PLAN</p>
+                        <h3>Distribución</h3>
+                        <p class="muted">
+                            Definí qué porcentaje de cada ingreso querés destinar a cada área.
+                        </p>
+                    </div>
+
+                    <button class="primary-button" id="saveDistribution">
+                        Guardar distribución
+                    </button>
+                </div>
+
+
+                <div class="distribution-config">
+
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div>
+                                <h4>Regla de distribución</h4>
+                                <p>
+                                    Estos porcentajes se aplican como referencia cuando registrás un ingreso.
+                                </p>
+                            </div>
+
+                            <div class="percentage-total">
+                                <span>Total</span>
+                                <strong id="distributionPercentageTotal">0%</strong>
+                            </div>
+                        </div>
+
+
+                        <div id="distributionInputs" class="distribution-inputs">
+                        </div>
+
+
+                        <div id="distributionWarning" class="warning-box hidden">
+                            Los porcentajes deben sumar exactamente 100%.
+                        </div>
+
+                    </div>
+
+
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div>
+                                <h4>Vista de ejemplo</h4>
+                                <p>Ejemplo aplicado sobre Bs 10.000.</p>
+                            </div>
+                        </div>
+
+                        <div id="distributionExample" class="example-distribution">
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 AHORROS
+            ========================== -->
+
+            <section class="view" id="view-ahorros">
+
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">RESERVAS</p>
+                        <h3>Ahorros</h3>
+                        <p class="muted">
+                            Separá dinero para construir estabilidad y crecimiento.
+                        </p>
+                    </div>
+
+                    <button class="primary-button" id="addSaving">
+                        + Registrar ahorro
+                    </button>
+                </div>
+
+
+                <div id="savingCards" class="saving-grid">
+                </div>
+
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <div>
+                            <h4>Movimientos de ahorro</h4>
+                            <p>Dinero separado de tus gastos normales.</p>
+                        </div>
+                    </div>
+
+                    <div id="savingMovements" class="card-list">
+                    </div>
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 OBLIGACIONES
+            ========================== -->
+
+            <section class="view" id="view-obligaciones">
+
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">COMPROMISOS</p>
+                        <h3>Obligaciones</h3>
+                        <p class="muted">
+                            Controlá pagos familiares y compromisos mensuales.
+                        </p>
+                    </div>
+
+                    <button class="primary-button" id="addObligation">
+                        + Nueva obligación
+                    </button>
+                </div>
+
+
+                <div class="obligation-summary">
+
+                    <div class="summary-box">
+                        <span>Total mensual</span>
+                        <strong id="obligationTotal">Bs 0,00</strong>
+                    </div>
+
+                    <div class="summary-box">
+                        <span>Pagado</span>
+                        <strong id="obligationPaid">Bs 0,00</strong>
+                    </div>
+
+                    <div class="summary-box">
+                        <span>Pendiente</span>
+                        <strong id="obligationPending">Bs 0,00</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+                    <div id="obligationList" class="obligation-list">
+                    </div>
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 CONFIGURACIÓN
+            ========================== -->
+
+            <section class="view" id="view-configuracion">
+
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">SISTEMA</p>
+                        <h3>Configuración</h3>
+                        <p class="muted">
+                            Ajustes generales de HN Finanzas.
+                        </p>
+                    </div>
+                </div>
+
+
+                <div class="settings-grid">
+
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div>
+                                <h4>Datos del usuario</h4>
+                                <p>Información básica de la aplicación.</p>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+
+                            <div class="form-group">
+                                <label>Nombre</label>
+                                <input type="text" id="settingsName" placeholder="Tu nombre">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Moneda</label>
+                                <select id="settingsCurrency">
+                                    <option value="BOB">Bolivianos (Bs)</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <button class="primary-button" id="saveSettings">
+                            Guardar cambios
+                        </button>
+                    </div>
+
+
+                    <div class="panel danger-panel">
+                        <div class="panel-header">
+                            <div>
+                                <h4>Datos de la aplicación</h4>
+                                <p>
+                                    Las operaciones de esta versión se guardan en este navegador.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="danger-actions">
+
+                            <button class="secondary-button" id="backupData">
+                                Descargar respaldo
+                            </button>
+
+                            <label class="secondary-button file-button">
+                                Restaurar respaldo
+                                <input type="file" id="restoreData" accept=".json">
+                            </label>
+
+                            <button class="danger-button" id="clearData">
+                                Borrar todos los datos
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <!-- =========================
+         MODAL MOVIMIENTO
+    ========================== -->
+
+    <div class="modal-overlay hidden" id="movementModal">
+
+        <div class="modal">
+
+            <div class="modal-header">
+                <div>
+                    <p class="eyebrow">REGISTRO</p>
+                    <h3 id="movementModalTitle">Nuevo movimiento</h3>
+                </div>
+
+                <button class="modal-close" data-close-modal="movementModal">
+                    ×
+                </button>
+            </div>
+
+
+            <form id="movementForm">
+
+                <input type="hidden" id="movementId">
+
+                <div class="type-selector">
+
+                    <button type="button" class="type-option active income-type" data-type="income">
+                        <span>＋</span>
+                        Ingreso
+                    </button>
+
+                    <button type="button" class="type-option expense-type" data-type="expense">
+                        <span>−</span>
+                        Gasto
+                    </button>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group full">
+                        <label>Descripción *</label>
+                        <input
+                            type="text"
+                            id="movementDescription"
+                            placeholder="Ej. Trabajo cocina, supermercado..."
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label>Monto (Bs) *</label>
+                        <input
+                            type="number"
+                            id="movementAmount"
+                            min="0"
+                            step="0.01"
+                            placeholder="0.00"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label>Fecha *</label>
+                        <input
+                            type="date"
+                            id="movementDate"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label>Categoría *</label>
+                        <select id="movementCategory" required></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cuenta / origen</label>
+                        <select id="movementAccount">
+                            <option value="Efectivo">Efectivo</option>
+                            <option value="Banco">Banco</option>
+                            <option value="Transferencia">Transferencia</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group full">
+                        <label>Nota</label>
+                        <textarea
+                            id="movementNote"
+                            rows="3"
+                            placeholder="Información adicional..."
+                        ></textarea>
+                    </div>
+
+                </div>
+
+
+                <div class="modal-footer">
+                    <button type="button" class="secondary-button" data-close-modal="movementModal">
+                        Cancelar
+                    </button>
+
+                    <button type="submit" class="primary-button">
+                        Guardar movimiento
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         MODAL AHORRO
+    ========================== -->
+
+    <div class="modal-overlay hidden" id="savingModal">
+
+        <div class="modal">
+
+            <div class="modal-header">
+                <div>
+                    <p class="eyebrow">AHORRO</p>
+                    <h3>Registrar ahorro</h3>
+                </div>
+
+                <button class="modal-close" data-close-modal="savingModal">
+                    ×
+                </button>
+            </div>
+
+
+            <form id="savingForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group full">
+                        <label>Destino *</label>
+                        <select id="savingCategory" required>
+                            <option value="Fondo de emergencia">Fondo de emergencia</option>
+                            <option value="Ahorro familiar">Ahorro familiar</option>
+                            <option value="Ahorro HN">Ahorro HN</option>
+                            <option value="Crecimiento HN">Crecimiento HN</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Monto (Bs) *</label>
+                        <input
+                            type="number"
+                            id="savingAmount"
+                            min="0"
+                            step="0.01"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label>Fecha *</label>
+                        <input type="date" id="savingDate" required>
+                    </div>
+
+                    <div class="form-group full">
+                        <label>Nota</label>
+                        <textarea
+                            id="savingNote"
+                            rows="3"
+                            placeholder="Ej. Separación del ingreso del trabajo..."
+                        ></textarea>
+                    </div>
+
+                </div>
+
+
+                <div class="modal-footer">
+                    <button type="button" class="secondary-button" data-close-modal="savingModal">
+                        Cancelar
+                    </button>
+
+                    <button type="submit" class="primary-button">
+                        Guardar ahorro
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         MODAL OBLIGACIÓN
+    ========================== -->
+
+    <div class="modal-overlay hidden" id="obligationModal">
+
+        <div class="modal">
+
+            <div class="modal-header">
+                <div>
+                    <p class="eyebrow">OBLIGACIÓN</p>
+                    <h3>Nueva obligación</h3>
+                </div>
+
+                <button class="modal-close" data-close-modal="obligationModal">
+                    ×
+                </button>
+            </div>
+
+
+            <form id="obligationForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group full">
+                        <label>Nombre *</label>
+                        <input
+                            type="text"
+                            id="obligationName"
+                            placeholder="Ej. Colegio"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label>Monto mensual (Bs) *</label>
+                        <input
+                            type="number"
+                            id="obligationAmount"
+                            min="0"
+                            step="0.01"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label>Día de vencimiento</label>
+                        <input
+                            type="number"
+                            id="obligationDueDay"
+                            min="1"
+                            max="31"
+                            value="5"
+                        >
+                    </div>
+
+                    <div class="form-group full">
+                        <label>Tipo</label>
+                        <select id="obligationCategory">
+                            <option value="Comida">Comida</option>
+                            <option value="Luz">Luz</option>
+                            <option value="Agua">Agua</option>
+                            <option value="Colegio">Colegio</option>
+                            <option value="Maestra integradora">Maestra integradora</option>
+                            <option value="Diezmo">Diezmo</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+
+                </div>
+
+
+                <div class="modal-footer">
+                    <button type="button" class="secondary-button" data-close-modal="obligationModal">
+                        Cancelar
+                    </button>
+
+                    <button type="submit" class="primary-button">
+                        Guardar obligación
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         TOAST
+    ========================== -->
+
+    <div id="toast" class="toast">
+        <span id="toastMessage"></span>
+    </div>
+
+
+    <script src="app.js"></script>
+
+</body>
+</html>
